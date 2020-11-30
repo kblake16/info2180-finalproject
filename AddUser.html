@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+	<head>
+        <meta charset="utf-8">
+		<title>BugMe Issue Tracker</title>
+
+		<!-- link for css file -->
+		<link href="AddUser.css" type="text/css" rel="stylesheet" />
+
+		<!-- link for js file -->
+		<script src="AddUser.js" type="text/javascript"></script>
+	</head>
+
+	<body>
+		<header>
+			<h1>Bug Me Issue Tracker</h1>
+		</header>
+
+		<main>
+			<div class="pages" id="pages">
+                <a href="Home.html">Home</a>
+                <a href="AddUser.html">Add User</a>
+                <a href="NewIssue.html">New Issue</a>
+                <a href="Index.html">Logout</a>
+			</div>
+			
+			<div class="NewUser" id="NewUser">
+                <!--input fields for users-->
+                <label for="fname">Firstname</label>
+                <input id="fname" type="text" name="firstName" placeholder="Enter First name" />
+                <label for="lname">Lastname</label>
+                <input id="lname" type="text" name="LastName" placeholder="Enter Last  name" />
+                <label for="pw">Password</label>
+                <input id="pw" type="password" name="password" placeholder="Enter suitable password" />
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="Enter email address" />
+                
+
+				<button id="submit">Submit</button>
+			</div>
+		</main>
+
+	</body>
+</html>
