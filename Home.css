@@ -1,0 +1,82 @@
+
+.container{
+
+    display:grid;
+
+    grid-template-areas: "side main";
+
+    grid-column-gap: 20px;
+
+}
+
+header{
+    background-color: black;
+    color: white;
+    height: 50px;
+    padding: 1em;
+    justify-content: center;
+}
+
+
+header h1{
+
+    margin: 10px;
+
+}
+
+#top{
+    display: flex;
+    flex-direction: row;
+}
+
+#top button{
+    float: right;
+}
+
+#filter{
+    display: flex;
+    flex-direction: row;
+}
+
+#filter button{
+    background-color: white;
+    border: white;
+    border-radius: 5px;
+    padding: 1em;
+    width: 100px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+#filter button:hover{
+    background-color: #0064d9;
+    border: #0064d9;
+    color: white;
+    cursor: pointer;
+}
+
+.page{
+    grid-area: main;
+}
+
+.aside{
+    grid-area: side;
+    background-color:#ececec;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    padding: .5em;
+
+}
+thead tr{ 
+    background-color:#ececec;
+    border-radius: 5px;
+
+}
+

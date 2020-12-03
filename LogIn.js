@@ -9,14 +9,16 @@ function validate()
     {
 
     }*/
-
-    if (email.value == " " || email.value.match(check))
+    console.log("java");
+    
+    if (email.value == "" || email.value.match(check))
     {
-        alert("yes");
-    }
-    else
-    {
+        console.log("check");
         alert("no");
+        email.style.borderColor= "red";
+        
+        return false;
     }
+
 
 }

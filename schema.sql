@@ -1,25 +1,23 @@
-CREATE DATABASE IF NOT EXISTS schemaDB;
-
 USE schemaDB;
 
 CREATE TABLE IssuesTable (
    id INT AUTO_INCREMENT,
-   title VARCHAR,
-   description TEXT,
-   type INT,
-   priority VARCHAR,
-   status VARCHAR,
+   title VARCHAR(255),
+   issue_description TEXT,
+   issue_type VARCHAR(255),
+   issue_priority VARCHAR(255),
+   issue_status VARCHAR(255),
    assigned_to INT,
    created_by INT,
    created DATETIME,
-   updated DATETIME);
+   updated DATETIME,
+   PRIMARY KEY(id));
 
 CREATE TABLE UserTable (
    id INT AUTO_INCREMENT,
-   firstname VARCHAR,
-   lastname VARCHAR,
-   password VARCHAR,
-   email VARCHAR,
-   date_joined DATETIME);
-
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON schemaDB.* TO 'admin'@'localhost' IDENTIFIED BY 'UserAdmin1';
+   firstname VARCHAR(255),
+   lastname VARCHAR(255),
+   user_password VARCHAR(255),
+   email VARCHAR(255),
+   date_joined DATETIME,
+   PRIMARY KEY(id));

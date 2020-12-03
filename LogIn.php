@@ -1,41 +1,65 @@
 <?php
 
-require_once 'dbconfig.php';
+require_once 'conn.php';
 
-try
+if (isset($_POST['submitForm']))
 {
-    $conn = new PDO("mysql: host=$host; dbname=$dbname", $username, $password);
-    echo "Connected to $dbname at $host successfully. <br>";
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    function userLogin($e,$p)
+    userLogin($email,$password,$conn);
+
+    $conn = null;
+}
+
+function userLogin($e,$p,$conn)
+{
+    if(!(checkLogin($e,$p,$conn)))
     {
-        if(!(checkLogin($e,$p)))
-        {
-            return false
-        }
-        else
-        {
-            echo "Login Successful";
-        }
-
+        return false;
     }
-
-    function checkLogin($e,$p)
+    else
     {
-        $check = "SELECT email,password FROM UserTable WHERE email = $email"
-    }
-
-
-    if (isset($_POST['submitForm']))
-    {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        userLogin($email,$password);
+        getFile();
     }
 
 }
-catch(PDOException $pe)
+
+function getFile()
 {
-    die("Could not connect to the database $dbname:" . $pe->getMessage());
+    if(file_exists("../Home.html"))
+    {
+        include "../Home.html";
+    }
+    else{
+        echo "Opps! File not found. Please check the path again";
+    }
 }
+
+function checkLogin($e,$p,$conn)
+{
+    $check = "SELECT * FROM UserTable";
+    $stmt = $conn -> query($check);
+    $result = $stmt ->fetchALL(PDO::FETCH_ASSOC);
+
+    if($result===[])
+    {
+        echo "Login Failed. Please ensure your email and password are correct";
+        return false;
+    }
+    else
+    {
+        foreach($result as $row)
+        {
+            if($row['email'] == $e && $row['user_password'] == $p)
+            {
+                return true;
+            }
+            else{
+                echo "Login Failed. Please ensure your email and password are correct";
+                return false;
+            }
+        }
+    }
+}
+
