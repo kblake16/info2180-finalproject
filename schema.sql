@@ -1,5 +1,14 @@
 USE schemaDB;
 
+ CREATE TABLE UserTable(
+   id INT AUTO_INCREMENT NOT NULL,
+   firstname VARCHAR(255),
+   lastname VARCHAR(255),
+   user_password VARCHAR(20),
+   email VARCHAR(255),
+   date_joined DATETIME,
+   PRIMARY KEY(id));
+
 CREATE TABLE IssuesTable (
    id INT AUTO_INCREMENT NOT NULL,
    title VARCHAR(255),
@@ -14,12 +23,3 @@ CREATE TABLE IssuesTable (
    PRIMARY KEY(id),
    FOREIGN KEY(assigned_to) REFERENCES UserTable (id),
    FOREIGN KEY(created_by) REFERENCES UserTable (id));
-
-CREATE TABLE UserTable (
-   id INT AUTO_INCREMENT,
-   firstname VARCHAR(255),
-   lastname VARCHAR(255),
-   user_password VARCHAR(20),
-   email VARCHAR(255),
-   date_joined DATETIME,
-   PRIMARY KEY(id));

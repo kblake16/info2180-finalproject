@@ -12,7 +12,23 @@
     <br>
     <label for="assignedTo">Assigned To</label>
     <br>
-    <input id ="assignedTo" type="text" name="assignedTo" value="Kayla"/>
+    <select id ="assignedTo" name="assignedTo">
+    <?php 
+    $checkUser = "SELECT * FROM UserTable";
+    $stmtUser = $conn -> query($checkUser);
+    $resultUser = $stmtUser ->fetchALL(PDO::FETCH_ASSOC);
+
+    if($resultUser===[])
+    {
+        echo "Login Failed. Please ensure your email and password are correct";
+        return false;
+        $conn = null;
+    }
+    else
+    {
+    foreach($resultIssue as $rowIssue)
+    {
+    ?>
     <br>
     <label for="type">Type</label>
     <br>
