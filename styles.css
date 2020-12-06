@@ -90,3 +90,55 @@ form{
 form label{
     font-weight: bold;
 }
+
+.displayArea{
+    display: grid;
+    grid-template-areas: "main side";
+}
+
+.textArea{
+    grid-area: main;
+}
+.side{
+    grid-area: side;
+    display: flex;
+    flex-direction: column;
+}
+.box{
+    position: relative;
+    width: 150px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    margin-top:50%;
+    border:1px;
+    border-radius: 6px;
+    border-color: rgb(87, 83, 83);
+    border-style:solid;
+    background-color:#ececec;
+    margin-bottom: 20px;
+}
+
+.side #rb
+{
+    
+    background-color: rgb(18, 112, 219);
+    border-style: hidden;
+    width: 150px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    
+}
+.side #rb2
+{
+    
+    background-color: rgb(49, 126, 49);
+    border-style: hidden;
+    width: 150px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}

@@ -2,11 +2,17 @@
 
 require_once 'conn.php';
 
-    $check = "SELECT * FROM IssuesTable";
-    $stmt = $conn -> query($check);
-    $result = $stmt ->fetchALL(PDO::FETCH_ASSOC);
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
+{
+    $title = $_POST['title'];
+    $checkIssue = "SELECT * FROM IssuesTable";
+    $checkUser = "SELECT * FROM UserTable";
+    $stmtIssue = $conn -> query($checkIssue);
+    $stmtUser = $conn -> query($checkUser);
+    $resultIssue = $stmtIssue ->fetchALL(PDO::FETCH_ASSOC);
+    $resultUser = $stmtUser ->fetchALL(PDO::FETCH_ASSOC);
 
-    if($result===[])
+    if($resultIssue===[] || $resultUser===[])
     {
         echo "Login Failed. Please ensure your email and password are correct";
         return false;
@@ -14,32 +20,49 @@ require_once 'conn.php';
     }
     else
     {
-        foreach($result as $row)
+        foreach($resultIssue as $rowIssue)
         {
-            if ($row["title"] == "open")
+            if (str_replace(' ', '',$rowIssue["title"]) == str_replace(' ', '',$title))
             {
-                echo "<h1>".$row["title"]."</h1>";
-                echo "<p>".$row["id"]."</h1>";
+                echo "<h1>".$rowIssue["title"]."</h1>";
+                echo "<p> Issue #".$rowIssue["id"]."</h1>";
                 echo "<div class='displayArea'>";
                 echo "<div class='textArea'>";
-                echo "<p>".$row["issue_description"]."</p><br>";
+                echo "<p>".$rowIssue["issue_description"]."</p><br>";
                 echo "<ul>";
-                echo "<li>Issue created on ".$row[""]."at".$row[""]."by".$row[""]."</li>";
-                echo "<li>Last updated on ".$row[""]."at".$row[""]."</li>";
+                foreach($resultUser as $rowUser)
+                {
+                    if ($rowIssue["created_by"] == $rowUser["id"])
+                    {
+                        $date = explode(" ",$rowIssue["created"]);
+                        echo "<li>Issue created on".$date[0]."at".$date[1]."by".$rowUser["firstname"]." ".$rowUser["lastname"]."</li>";
+                    }
+
+                }
+                $date = explode(" ",$rowIssue["updated"]);
+                echo "<li>Last updated on ".$date[0]."at".$date[1]."</li>";
                 echo "</ul>";
                 echo "</div>";
                 echo "<div class='side'>";
                 echo "<div class='box'>";
-                echo "<lable>Assigned To:</label><p>".$row[""]."</p><br>";
-                echo "<lable>Type:</label><p>".$row["issue_type"]."</p><br>";
-                echo "<lable>Priority:</label><p>".$row["issue_priority"]."</p><br>";
-                echo "<lable>Status:</label><p>".$row["issue_status"]."</p><br>";
+                foreach($resultUser as $rowUser)
+                {
+                    if ($rowIssue["assigned_to"] == $rowUser["id"])
+                    {
+                        echo "<lable>Assigned To:</label><p>".$rowUser["firstname"]." ".$rowUser["lastname"]."</p><br>";
+                    }
+
+                }
+                echo "<lable>Type:</label><p>".$rowIssue["issue_type"]."</p><br>";
+                echo "<lable>Priority:</label><p>".$rowIssue["issue_priority"]."</p><br>";
+                echo "<lable>Status:</label><p>".$rowIssue["issue_status"]."</p><br>";
                 echo "</div>";
-                echo "<button>Mark as Closed</button>";
-                echo "<button>Mark In Progress</button>";
+                echo "<button id='rb'>Mark as Closed</button>";
+                echo "<button id='rb2'>Mark In Progress</button>";
                 echo "</div>";
                 echo "</div>";
             }
         }
         $conn = null;
     }
+}

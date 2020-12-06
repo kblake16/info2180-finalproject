@@ -63,14 +63,33 @@ td a{
 
 #IssueBtn
 {
-        margin-left:600px;
-        margin-top: 50px;
-        background-color: rgb(72, 134, 72);
-        border-style: hidden;
-        border-radius: 4px;
-        text-align: center;
-        width: 120px;
-        height: 25px;
-        font-size: 10px;
-        
+    margin-left:600px;
+    margin-top: 50px;
+    background-color: rgb(72, 134, 72);
+    border-style: hidden;
+    border-radius: 4px;
+    text-align: center;
+    width: 120px;
+    height: 25px;
+    font-size: 10px;
+}
+
+.open {
+    background-color: rgb(72, 134, 72);
+    color: white;
+    border-style: hidden;
+    text-transform: uppercase;
+}
+
+.closed{
+    background-color: orange;
+    color: white;
+    border-style: hidden;
+    text-transform: uppercase;
+}
+
+.progress{
+    background-color: yellow;
+    border-style: hidden;
+    text-transform: uppercase;
 }

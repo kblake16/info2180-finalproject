@@ -93,6 +93,30 @@ function viewOpen(event){
     event.preventDefault();
 }
 
+function display(event,title)
+{
+    var loginString = "";
+    var page = document.getElementById("page");
+    console.log(title);
+    httpRequest.onreadystatechange = processName;
+    httpRequest.open('POST', 'display-issue.php');
+    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    loginString += "title=" + encodeURIComponent(title);
+    httpRequest.send(loginString);
+    event.preventDefault();
+
+    function processName() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                page.innerHTML = this.responseText;
+            } else {
+            alert('There was a problem with the request.');
+            }
+        }
+    }
+    
+}
+
 
 function validateUser(event)
 {
