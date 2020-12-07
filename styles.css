@@ -32,6 +32,15 @@ header h1{
     width: 1000px;
 }
 
+.issueid{
+    font-weight: bold;
+}
+
+.updates{
+    color: darkgray;
+}
+
+
 .aside{
     grid-area: side;
     background-color:#ececec;
@@ -105,18 +114,21 @@ form label{
     flex-direction: column;
 }
 .box{
-    position: relative;
+    position:relative;
     width: 150px;
     float: right;
-    display: flex;
+    display: flex;*/
     flex-direction: column;
-    margin-top:50%;
+    margin-top:10%;
+    margin-left: 5%;
     border:1px;
     border-radius: 6px;
     border-color: rgb(87, 83, 83);
     border-style:solid;
     background-color:#ececec;
     margin-bottom: 20px;
+
+    
 }
 
 .side #rb
@@ -129,6 +141,7 @@ form label{
     margin-bottom: 20px;
     padding-top: 6px;
     padding-bottom: 6px;
+    color: white;
     
 }
 .side #rb2
@@ -141,4 +154,9 @@ form label{
     margin-bottom: 20px;
     padding-top: 6px;
     padding-bottom: 6px;
+    color: white;
+}
+
+#boxtitle{
+    font-weight: bold;
 }

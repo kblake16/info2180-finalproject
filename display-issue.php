@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             if (str_replace(' ', '',$rowIssue["title"]) == str_replace(' ', '',$title))
             {
                 echo "<h1>".$rowIssue["title"]."</h1>";
-                echo "<p> Issue #".$rowIssue["id"]."</h1>";
+                echo "<p class = 'issueid'> Issue #".$rowIssue["id"]."</h1>";
                 echo "<div class='displayArea'>";
                 echo "<div class='textArea'>";
                 echo "<p>".$rowIssue["issue_description"]."</p><br>";
@@ -35,12 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                     if ($rowIssue["created_by"] == $rowUser["id"])
                     {
                         $date = explode(" ",$rowIssue["created"]);
-                        echo "<li>Issue created on".$date[0]."at".$date[1]."by".$rowUser["firstname"]." ".$rowUser["lastname"]."</li>";
+                        echo "<li class = 'updates'>Issue created on".$date[0]."at".$date[1]."by".$rowUser["firstname"]." ".$rowUser["lastname"]."</li>";
                     }
 
                 }
                 $date = explode(" ",$rowIssue["updated"]);
-                echo "<li>Last updated on ".$date[0]."at".$date[1]."</li>";
+                echo "<li class = 'updates'>Last updated on ".$date[0]."at".$date[1]."</li>";
                 echo "</ul>";
                 echo "</div>";
                 echo "<div class='side'>";
