@@ -2,6 +2,8 @@
 
 require_once 'conn.php';
 
+session_start();
+
 $checkIssue = "SELECT * FROM IssuesTable";
 $checkUser = "SELECT * FROM UserTable";
 $stmtIssue = $conn -> query($checkIssue);
@@ -18,7 +20,7 @@ $resultUser = $stmtUser ->fetchALL(PDO::FETCH_ASSOC);
     {
         foreach($resultIssue as $rowIssue)
         {
-            if ($rowIssue["issue_status"] == "open")
+            if ($rowIssue["assigned_to"] == $_SESSION['username'])
             {
                 echo "<tr>";
                 $title = str_replace(' ', '',$rowIssue["title"]);
@@ -29,7 +31,18 @@ $resultUser = $stmtUser ->fetchALL(PDO::FETCH_ASSOC);
                 echo "<td> #".$rowIssue["id"]."<a href='' onclick=".$final."";
                 echo ">".$rowIssue["title"]."</a></td>";
                 echo "<td>".$rowIssue["issue_type"]."</td>";
-                echo "<td><button class='open'>". $rowIssue["issue_status"]. "</button></td>";
+                if($rowIssue["issue_status"] == "open")
+                {
+                    echo "<td><button class='open'>". $rowIssue["issue_status"]. "</button></td>";
+                }
+                if($rowIssue["issue_status"] == "closed")
+                {
+                    echo "<td><button class='closed'>". $rowIssue["issue_status"]. "</button></td>";
+                }
+                if($rowIssue["issue_status"] == "in progress")
+                {
+                    echo "<td><button class='progress'>". $rowIssue["issue_status"]. "</button></td>";
+                }
                 foreach($resultUser as $rowUser)
                 {
                     if ($rowIssue["assigned_to"] == $rowUser["id"])

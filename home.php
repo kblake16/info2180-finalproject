@@ -10,7 +10,7 @@
     <p>Filter by:</p>
     <button id="all" name="all" value="all" onclick="viewAll(event)" class="bfilter">ALL</button>
     <button id="open" name="open" value="open" onclick="viewOpen(event)" class="bfilter">OPEN</button>
-    <button id="tickets" name="tickets" value="tickets" class="bfilter">MY TICKETS</button>
+    <button id="tickets" name="tickets" value="tickets" class="bfilter" onclick="viewMine(event)" >MY TICKETS</button>
 </div>
 
 <div id ="table">

@@ -35,12 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                     if ($rowIssue["created_by"] == $rowUser["id"])
                     {
                         $date = explode(" ",$rowIssue["created"]);
-                        echo "<li>Issue created on".$date[0]."at".$date[1]."by".$rowUser["firstname"]." ".$rowUser["lastname"]."</li>";
+                        echo "<li>Issue created on ".$date[0]." at ".$date[1]." by ".$rowUser["firstname"]." ".$rowUser["lastname"]."</li>";
                     }
 
                 }
                 $date = explode(" ",$rowIssue["updated"]);
-                echo "<li>Last updated on ".$date[0]."at".$date[1]."</li>";
+                echo "<li>Last updated on ".$date[0]." at ".$date[1]."</li>";
                 echo "</ul>";
                 echo "</div>";
                 echo "<div class='side'>";
@@ -57,8 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 echo "<lable>Priority:</label><p>".$rowIssue["issue_priority"]."</p><br>";
                 echo "<lable>Status:</label><p>".$rowIssue["issue_status"]."</p><br>";
                 echo "</div>";
-                echo "<button id='rb'>Mark as Closed</button>";
-                echo "<button id='rb2'>Mark In Progress</button>";
+
+                echo "<tr>";
+                $id = $rowIssue["id"];
+                $display = "inProgress(event,";
+                $display1 = "closed(event,";
+                $display2 = "".$id.")";
+                $final = "".$display1."".$display2."";
+                $finalP = "".$display."".$display2."";
+
+                echo "<button id='rb' onclick=".$final.">Mark as Closed</button>";
+                echo "<button id='rb2' onclick=".$finalP.">Mark In Progress</button>";
                 echo "</div>";
                 echo "</div>";
             }

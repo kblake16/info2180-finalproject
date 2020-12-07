@@ -1,21 +1,22 @@
-
 <?php
 
 require_once 'conn.php';
 
-$check = "SELECT * FROM IssuesTable";
-$stmt = $conn -> query($check);
-$result = $stmt ->fetchALL(PDO::FETCH_ASSOC);
+$checkIssue = "SELECT * FROM IssuesTable";
+$checkUser = "SELECT * FROM UserTable";
+$stmtIssue = $conn -> query($checkIssue);
+$stmtUser = $conn -> query($checkUser);
+$resultIssue = $stmtIssue ->fetchALL(PDO::FETCH_ASSOC);
+$resultUser = $stmtUser ->fetchALL(PDO::FETCH_ASSOC);
 
-if($result===[])
+if($resultIssue===[] || $resultUser===[])
 {
-    echo "Login Failed. Please ensure your email and password are correct";
     return false;
     $conn = null;
 }
 else
 {
-    foreach($result as $rowIssue)
+    foreach($resultIssue as $rowIssue)
     {
         echo "<tr>";
         $title = str_replace(' ', '',$rowIssue["title"]);
@@ -38,7 +39,14 @@ else
         {
             echo "<td><button class='progress'>". $rowIssue["issue_status"]. "</button></td>";
         }
-        echo "<td>". $rowIssue["assigned_to"]."</td>"; 
+        foreach($resultUser as $rowUser)
+        {
+            if ($rowIssue["assigned_to"] == $rowUser["id"])
+            {
+                echo "<td>".$rowUser["firstname"]." ".$rowUser["lastname"]."</td>";
+            }
+
+        }
         echo "<td>". $rowIssue["created"]."</td>";
         echo "</tr>";
     }

@@ -93,11 +93,75 @@ function viewOpen(event){
     event.preventDefault();
 }
 
+function viewMine(event){
+    let table = document.getElementById("display");
+    httpRequest.onreadystatechange = function()
+    {
+
+        if (this.readyState == 4 && this.status == 200)
+        {
+            table.innerHTML = this.responseText;
+        }
+    }
+
+    httpRequest.open('GET','myTicket.php',true);
+    httpRequest.send();
+
+    event.preventDefault();
+}
+
+function closed(event,id){
+
+    var loginString = "";
+    var page = document.getElementById("page");
+    httpRequest.onreadystatechange = processName;
+    httpRequest.open('POST', 'process-status.php');
+    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    loginString += "id=" + encodeURIComponent(id);
+    loginString += "&status=" + encodeURIComponent("closed");
+    httpRequest.send(loginString);
+    console.log(loginString);
+    event.preventDefault();
+
+    function processName() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                page.innerHTML = this.responseText;
+            } else {
+            alert('There was a problem with the request.');
+            }
+        }
+    }
+}
+
+function inProgress(event,id){
+
+    var loginString = "";
+    var page = document.getElementById("page");
+    httpRequest.onreadystatechange = processName;
+    httpRequest.open('POST', 'process-status.php');
+    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    loginString += "id=" + encodeURIComponent(id);
+    loginString += "&status=" + encodeURIComponent("in progress");
+    httpRequest.send(loginString);
+    console.log(loginString);
+    event.preventDefault();
+
+    function processName() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                page.innerHTML = this.responseText;
+            } else {
+            alert('There was a problem with the request.');
+            }
+        }
+    }
+}
+
 function display(event,title)
 {
     var loginString = "";
     var page = document.getElementById("page");
-    console.log(title);
     httpRequest.onreadystatechange = processName;
     httpRequest.open('POST', 'display-issue.php');
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -123,6 +187,9 @@ function validateUser(event)
     var form = document.getElementById("newUser")
     var checkEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/;
     var checkPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var passRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+
 
     var validate = false;
     var msg = "";
@@ -148,7 +215,7 @@ function validateUser(event)
         event.preventDefault();
     }
 
-    if (isEmpty(password.value.trim()) || password.value.length < 8 ) // check for capital letter , common letter, number
+    if (isEmpty(password.value.trim()) || password.value.length < 8 ) 
     {
         validate = true;
         msg += "Incorrect format for password\n";
@@ -207,9 +274,8 @@ function validateIssue(event)
     var form = document.getElementById("createIssue");
     var httpRequest = new XMLHttpRequest();
     var loginString = "";
-
-    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    var passRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    var msg = "";
+    var validate = false;
     
     var title = document.getElementById("title");
     var description = document.getElementById("description");
@@ -217,16 +283,56 @@ function validateIssue(event)
     var type = document.getElementById("type");
     var priority = document.getElementById("priority");
 
-    httpRequest.onreadystatechange = processName;
-    httpRequest.open('POST', 'new-issue-process.php');
-    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    loginString += "title=" + encodeURIComponent(title.value);
-    loginString += "&description=" + encodeURIComponent(description.value);
-    loginString +="&assignedTo="+  encodeURIComponent(assignedTo.value);
-    loginString += "&type=" + encodeURIComponent(type.value);
-    loginString += "&priority=" + encodeURIComponent(priority.value);
-    httpRequest.send(loginString);
-    event.preventDefault();
+        if (isEmpty(title.value.trim())) // check for capital letter , common letter, number
+        {
+            validate = true;
+            msg += "Enter a Title\n";
+            event.preventDefault();
+        }
+
+        if (isEmpty(description.value.trim()) )
+        {
+            validate = true;
+            msg += "Enter a Description\n";
+            event.preventDefault();
+        }
+        if (isEmpty(assignedTo.value.trim()) )
+        {
+            validate = true;
+            msg += "Select a Person Assigned to\n";
+            event.preventDefault();
+        }
+        if (isEmpty(type.value.trim()) )
+        {
+            validate = true;
+            msg += "Select a Type\n";
+            event.preventDefault();
+        }
+        if (isEmpty(priority.value.trim()) )
+        {
+            validate = true;
+            msg += "Select a Priority\n";
+            event.preventDefault();
+        }
+
+        if (validate) {
+            console.log('Please fix issues in Form submission and try again.');
+            alert(msg);
+            event.preventDefault();
+        }
+        else{
+
+            httpRequest.onreadystatechange = processName;
+            httpRequest.open('POST', 'new-issue-process.php');
+            httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            loginString += "title=" + encodeURIComponent(title.value);
+            loginString += "&description=" + encodeURIComponent(description.innerHTML);
+            loginString +="&assignedTo="+  encodeURIComponent(assignedTo.value);
+            loginString += "&type=" + encodeURIComponent(type.value);
+            loginString += "&priority=" + encodeURIComponent(priority.value);
+            httpRequest.send(loginString);
+            event.preventDefault();
+        }
 
     function processName() {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
@@ -238,17 +344,25 @@ function validateIssue(event)
         }
     }
 
+    function isEmpty(elementValue) {
+        if (elementValue.length == 0) {
+            // Or you could check if the value == ""
+            console.log('field is empty');
+            return true;
+        }
+        return false;
+    }
+
     form.reset();
     event.preventDefault();
 }
 
-console.log("Outside");
 window.onload =  function()
 { var form = document.getElementById("login");
     form.onsubmit = function(event)
     {
         var page = document.getElementById("page");
-
+        var addUser = document.getElementById("admin");
         var email = document.getElementById("loginEmail");
         var password = document.getElementById("loginPassword");
 
@@ -280,12 +394,15 @@ window.onload =  function()
             event.preventDefault();
         }
         else{
-            console.log(email.value + password.value)
             httpRequest.onreadystatechange = processName;
             httpRequest.open('POST', 'log-in-process.php');
             httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             loginString += "loginPassword=" + encodeURIComponent(password.value);
             loginString += "&loginEmail=" + encodeURIComponent(email.value);
+            if (email.value !== 'admin@project2.com')
+            {
+                addUser.style.display ="none";
+            }
             httpRequest.send(loginString);
             event.preventDefault();
         }

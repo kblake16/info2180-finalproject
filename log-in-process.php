@@ -2,27 +2,15 @@
 
 require_once 'conn.php';
 
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     $email = $_POST['loginEmail'];
     $password = $_POST['loginPassword'];
 
-    userLogin($email,$password,$conn);
-
+    checkLogin($email,$password,$conn);
     $conn = null;
-}
-
-function userLogin($e,$p,$conn)
-{
-    if(!(checkLogin($e,$p,$conn)))
-    {
-        return false;
-    }
-    else
-    {
-        getFile();
-    }
-
 }
 
 function getFile()
@@ -45,21 +33,22 @@ function checkLogin($e,$p,$conn)
     if($result===[])
     {
         include "log-in.php";
-        return false;
     }
     else
     {
         foreach($result as $row)
         {
-            if($row['email'] == $e && $row['user_password'] == $p)
+            if($row['email'] == $e && password_verify($p,$row['user_password']))
             {
-                return true;
-            }
-            else{
-                include "log-in.php";
-                return false;
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $row['id'];
+                $_SESSION['email'] = $row['email'];
+                getFile();
+                break;
             }
         }
+        include "log-in.php";
     }
+
 }
 

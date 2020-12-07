@@ -22,14 +22,16 @@
 		<main class ="container">
 			<div class="aside" id="aside">
                 <a id = "nav-home" href="#" onclick="home(event)"><img src= "IMG/home.svg" class="icon"> Home</a>
-                <a id = "nav-user" href="#" onclick="user(event)"><img src= "IMG/user.svg" class="icon"> Add User</a>
+                <div id="admin">
+                    <a id = 'nav-user' href='#' onclick='user(event)'><img src= 'IMG/user.svg' class='icon'> Add User</a>
+                </div>
                 <a id = "nav-issue" href="#" onclick="issue(event)"><img src= "IMG/issue.svg" class="icon"> New Issue</a>
                 <a id = "nav-out" href="#" onclick="out(event)"><img src= "IMG/logout.svg" class="icon"> Logout</a>
             </div>
 			
 			<div class="page" id="page">
                 <!--load pages-->
-                    <?php include "log-in.php"; ?>
+                    <?php include "log-in.php";?>
                 
 			</div>
 		</main>

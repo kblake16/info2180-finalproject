@@ -8,42 +8,54 @@
     <br>
     <label for="description">Description</label>
     <br>
-    <input id="description" type="text" name="description" />
+    <textarea id="description" type="text" name="description"></textarea>
     <br>
     <label for="assignedTo">Assigned To</label>
     <br>
     <select id ="assignedTo" name="assignedTo">
     <?php 
-    $checkUser = "SELECT * FROM UserTable";
-    $stmtUser = $conn -> query($checkUser);
-    $resultUser = $stmtUser ->fetchALL(PDO::FETCH_ASSOC);
+        require_once 'conn.php';
+        try
+        {
+            $check = "SELECT * FROM UserTable";
+            $stmt = $conn -> query($check);
+            $result = $stmt ->fetchALL(PDO::FETCH_ASSOC);
 
-    if($resultUser===[])
-    {
-        echo "Login Failed. Please ensure your email and password are correct";
-        return false;
-        $conn = null;
-    }
-    else
-    {
-    foreach($resultIssue as $rowIssue)
-    {
+            if($result===[])
+            {
+                echo "Login Failed. Please ensure your email and password are correct";
+                return false;
+                $conn = null;
+            }
+            else
+            {
+                foreach($result as $row)
+                {
+                    echo "<option value = '".$row["id"]."'>".$row["firstname"]." ".$row["lastname"]."</option>";
+                }
+            }
+        }
+        catch(PDOException $e) 
+        {
+            echo $check . "<br>" . $e->getMessage();
+        }
     ?>
+    </select>
     <br>
     <label for="type">Type</label>
     <br>
     <select id ="type" name="type">
-        <option value ="bug">Bug</option>
-        <option value ="proposal">Proposal</option>
-        <option value ="task">Task</option>
+        <option value ="Bug">Bug</option>
+        <option value ="Proposal">Proposal</option>
+        <option value ="Task">Task</option>
     </select>
     <br>
     <label for="priority">Priority</label>
     <br>
     <select id ="priority" name="priority">
-        <option value ="major">Major</option>
-        <option value ="minor">Minor</option>
-        <option value ="critical">Critical</option>
+        <option value ="Major">Major</option>
+        <option value ="Minor">Minor</option>
+        <option value ="Critical">Critical</option>
     </select>
     <br>
     <input type="submit" name ="submit" value="submit" id="submit"/>

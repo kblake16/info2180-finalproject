@@ -4,7 +4,7 @@ USE schemaDB;
    id INT AUTO_INCREMENT NOT NULL,
    firstname VARCHAR(255),
    lastname VARCHAR(255),
-   user_password VARCHAR(20),
+   user_password VARCHAR(255),
    email VARCHAR(255),
    date_joined DATETIME,
    PRIMARY KEY(id));
